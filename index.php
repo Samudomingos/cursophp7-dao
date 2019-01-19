@@ -2,10 +2,15 @@
 
 require_once ("config.php");
 
-$sam = new Usuario();
+/*$list = Usuario::getList();
+echo json_encode($list);*/
 
-$sam->loadById(1);
+/*$p = Usuario::search("h");
+echo json_encode($p);*/
 
-echo $sam;
+$user = new Usuario();
 
+$user->login("samuel","12345");
+
+echo $user;
 ?>

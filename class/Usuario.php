@@ -32,7 +32,7 @@ Class Usuario{
     public function loadById($id){
         $sql = new Sql();
         $results = $sql->select("SELECT * FROM tb_usuarios WHERE id = :ID",array(
-            ":ID"=>$id
+            ':ID'=>$id
         ));
         if(count($results) > 0){
             $row = $results[0];
@@ -42,7 +42,33 @@ Class Usuario{
             $this->setDataTime(new DateTime($row['datatime']));
         }
     }
-
+    static function getList(){
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios;");
+    }
+    static function search($login){
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :DESLOGIN ORDER BY deslogin",array(
+        ':DESLOGIN'=>"%" . $login . "%"
+        ));
+    }
+    function login($login,$password){
+        $sql = new Sql();
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD ",array(
+            ':LOGIN'=>$login,
+            ':PASSWORD'=>$password
+        ));
+        if(count($results) > 0){
+            $row = $results[0];
+            $this->setId($row['id']);
+            $this->setDeslogin($row['deslogin']);
+            $this->setDessenha($row['dessenha']);
+            $this->setDataTime(new DateTime($row['datatime']));
+        } else {
+            throw new Exception("LOGIN e/ou Senha Inválidos.");
+            
+        }
+    }
     function __toString(){
         return json_encode(array(
             "id"=>$this->getId(),
