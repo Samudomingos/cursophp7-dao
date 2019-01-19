@@ -10,13 +10,13 @@
 
         private function setParams($stmt,$parameters = array()){
             foreach ($parameters as $key =>$value){
-                $stmt->setParam($key,$value);
+                $this->setParam($stmt,$key,$value);
             }
         }
         private function setParam($stmt,$key,$value){
             $stmt->bindParam($key, $value);
         }
-        public function query($rawQuery,$params = array()){
+        public function query($rawQuery, $params = array()){
             $stmt = $this->conn->prepare($rawQuery);
             $this->setParams($stmt, $params);
             $stmt->execute();
