@@ -36,7 +36,7 @@ Class Usuario{
         ));
         if(count($results) > 0){
             $this->setData($results[0]);
-           
+
         }
     }
     static function getList(){
@@ -93,6 +93,18 @@ Class Usuario{
             ':PASSWORD'=>$this->getDessenha(),
             ':ID'=>$this->getId()
         ));
+    }
+    function Delete(){
+        $sql = new Sql();
+
+        $sql->query("DELETE FROM tb_usuarios WHERE id = :ID",array(
+            'ID'=>$this->getId()
+        ));
+
+        $this->setId(0);
+        $this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDataTime(new DateTime());
     }
 
     function __construct($login="", $senha=""){
